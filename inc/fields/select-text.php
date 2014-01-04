@@ -30,10 +30,10 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 			$meta[1] = isset( $meta[1] ) ? $meta[1] : '';
 
 			$html = sprintf(
-				'<select class="rwmb-select" name="%s[]" id="%s" size="%s"%s>',
+				'<select class="rwmb-select rwmb-select2" name="%s[]" id="%s" size="%s"%s>',
 				$field['field_name'],
 				$field['id'],
-				$field['size'],
+				$field['size2'],
 				$field['multiple'] ? ' multiple="multiple"' : ''
 			);
 
@@ -73,10 +73,11 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 			$meta = get_post_meta( $post_id, $field['id'], $single );
 			$meta = ( !$saved && '' === $meta || array() === $meta ) ? array('','') : $meta;
 
-			foreach ($meta as $key => $value) {
-				$meta[$key] = array_map( 'esc_attr', (array) $meta[$key] );
+			if(!empty($meta)) {
+				foreach ($meta as $key => $value) {
+					$meta[$key] = array_map( 'esc_attr', (array) $meta[$key] );
+				}
 			}
-
 			return $meta;
 		}
 
@@ -96,8 +97,8 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 		{
 			foreach ( $new as &$arr ) {
 
-        		if ( empty( $arr[0] ) && empty( $arr[1] ) ) {
-
+        		if ( empty( $arr[0] ) || empty( $arr[1] ) ) {
+        			//if any of them is empty then we don't save
 		        	$arr = false;
 
 		        }
@@ -130,7 +131,8 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 			$field = wp_parse_args( $field, array(
 				'desc'        => '',
 				'name'        => $field['id'],
-				'size'        => $field['multiple'] ? 5 : 0,
+				'size2'       => $field['multiple'] ? 5 : 0,
+				'size'        => 30,
 				'placeholder' => '',
 			) );
 			return $field;
