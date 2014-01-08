@@ -134,6 +134,7 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 				'size2'       => $field['multiple'] ? 5 : 0,
 				'size'        => 30,
 				'placeholder' => '',
+				'select_placeholder' => ''
 			) );
 			return $field;
 		}
@@ -149,7 +150,7 @@ if ( !class_exists( 'RWMB_Select_Text_Field' ) )
 		static function options_html( $field, $meta )
 		{
 			$html = '';
-			$html = '<option value="">'.__('Select icon','basicstheme').'</option>';
+			if ($field['select_placeholder']!="") $html = '<option value="">'.$field['select_placeholder'].'</option>';
 
 			$option = '<option value="%s"%s>%s</option>';
 
